@@ -1,49 +1,64 @@
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class departmentDB 
 {
-    String departmentID;
-    String departmentName;
-    protected HashMap<String, String> departmentMap = new HashMap<String, String>();
+    protected DepartmentModel departmentModel;
+    ArrayList<DepartmentModel> departmentDB = new ArrayList<DepartmentModel>();
+    int i = 0;
 
-    protected void printAllDepartment()
+    protected void viewAllDepartment()
     {
-        Set deparmentSet = departmentMap.entrySet();
-        Iterator departmenIterator = deparmentSet.iterator();
-
-        while(departmenIterator.hasNext())
+        System.out.println("----------");
+        System.out.println("There are " + departmentDB.size() + " department in this company");
+        for(DepartmentModel department : departmentDB)
         {
-            Map.Entry getData = (Map.Entry) departmenIterator.next();
-            System.out.println("department ID:" + getData.getKey() + ",department Name:" + getData.getValue());
+            System.out.println("----------");
+            System.out.println("Department ID:" + department.departmentID + ", " + "Department Name:" + department.departmentName);
         }
     }
 
     protected void createDepartment(String departmentID, String departmentName)
     {
-        if(!departmentMap.containsKey(departmentID) && !departmentMap.containsValue(departmentName))
+        departmentModel = new DepartmentModel(departmentID, departmentName);
+        departmentDB.add(departmentModel);
+    }
+
+    protected void updateDepartment(String departmentID, String newDepartmentName)
+    {
+        while(i < departmentDB.size())
         {
-            departmentMap.put(departmentID, departmentName);
-            System.out.println("Create department successfully!");
+            if(departmentID.contains(departmentDB.get(i).departmentID))
+            {
+                departmentModel = new DepartmentModel(departmentID, newDepartmentName);
+                departmentDB.set(i, departmentModel);
+                System.out.println("Update sucessfully!");
+                break;
+            }
+            i++;
         }
-        else
+
+        if(i == departmentDB.size())
         {
-            System.out.println("Invalid Input!");
+            System.out.println("Invalid departmentID!");
         }
     }
 
-    protected boolean searchDepartment(String departmentID)
+    protected void deleteDepartment(String departmentID)
     {
-        if(departmentMap.containsKey(departmentID))
+        while(i < departmentDB.size())
         {
-            System.out.println(departmentID + " found!");
-            System.out.println("department ID:" + departmentMap.get(departmentID) + ",department Name:" + departmentMap.get(departmentName));
-            return true;
+            if(departmentDB.get(i).departmentID.contains(departmentID))
+            {
+                departmentDB.remove(i);
+                System.out.println("Remove sucessfully!");
+                break;
+            }
+            i++;
         }
 
-        System.out.println("Invalid input! Please input correct data!");
-        return false;
+        if(i == departmentDB.size())
+        {
+            System.out.println("Invalid departmentID!");
+        }
     }
 }

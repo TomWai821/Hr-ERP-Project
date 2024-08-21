@@ -1,93 +1,25 @@
 import java.util.ArrayList;
-import java.util.List;
 
-interface dbInterface
+public class EmployeeDB 
 {
-    int countValue();
-    void printAllValue();
-}
-
-public class EmployeeDB implements dbInterface
-{
-    protected List<EmployeeModel.employeeModel> employeeDB = new ArrayList<EmployeeModel.employeeModel>();
-    protected EmployeeModel.employeeModel employee;
-    protected Pages login;
+    protected EmployeeModel employee;
+    protected ArrayList<EmployeeModel> employeeDB = new ArrayList<EmployeeModel>();
+    protected JobModel jobModel;
+    protected Pages page;
     protected int i = 0;
 
-    @Override
-    public int countValue()
+    protected void addEmployee(EmployeeModel employee)
     {
-        System.out.println("There are "+ employeeDB.size() + " employeeModelin this company");
-        return employeeDB.size();
-    }
-
-    @Override
-    public void printAllValue()
-    {
-        int i = 0;
-        System.out.println("----------");
-        while(i < countValue())
-        {
-            System.out.println("Department: "  + employeeDB.get(i).departmentID);
-            System.out.println("Position: "  + employeeDB.get(i).jobTitle);
-            System.out.println("EmployeeID: "  + employeeDB.get(i).employeeID);
-            System.out.println("Salary: $" + employeeDB.get(i).salary);
-            System.out.println("----------");
-            i++;
-        }
-    }
-
-    protected EmployeeModel.employeeModel addEmployee(EmployeeModel.employeeModel employee)
-    {
-        if(employeeDB.contains(employee))
-        {
-            System.out.println("Already have this employeeModelin this table!");
-            return null;
-        }
-        System.out.println("Add employeeModel successfully!");
         employeeDB.add(employee);
-        return employee;
+        System.out.println("Add employee Successfully!");
     }
 
-    protected void LoginAuth(String employeeID, String Password)
+    protected void viewEmployee(String employeeID)
     {
-        int i = searchEmployee(employeeID, Password);
-
-        if(i != -1)
+        if(employeeID.contains(employee.employeeID))
         {
-            System.out.println("Login Successfully!");
-            login.MainPage();
-        }
-        else
-        {
-            System.out.println("Invalid Data!");
-        }
-    }
-
-    protected void RegisterAuth(String employeeID, String Password)
-    {
-        int i = searchEmployee(employeeID, Password);
-
-        if(i != -1)
-        {
-            System.out.println("Account with these data already exist!");
-        }
-        else
-        {
-            System.out.println("Register Successfully!");
-            employeeDB.add(employee);
-            login.MainPage();
-        }
-    }
-
-
-    protected void removeEmployee(String employeeID)
-    {
-        int i = searchEmployee(employeeID);
-        if(i != -1)
-        {
-            employeeDB.remove(i);
-            System.out.println("Remove "+ employeeID +" successfully!");
+            System.out.println("----------");
+            printEmployee(employee);
         }
         else
         {
@@ -95,32 +27,49 @@ public class EmployeeDB implements dbInterface
         }
     }
 
-    protected int searchEmployee(String employeeID)
+    protected void viewAllEmployee()
     {
-        int i = 0;
-        while(i < employeeDB.size())
+        System.out.println("----------");
+        System.out.println("There are "+ employeeDB.size() + " employee in this company");
+        System.out.println("----------");
+
+        for(EmployeeModel employee: employeeDB)
         {
-            if(employeeDB.get(i).employeeID.equals(employeeID))
-            {
-                return i;
-            }
-            i++;
+            printEmployee(employee);
         }
-        return -1;
     }
 
-    protected int searchEmployee(String employeeID, String Password)
+    protected void printEmployee(EmployeeModel employee)
     {
-        int i = 0;
-        while(i < employeeDB.size())
-        {
-            if(employeeDB.get(i).employeeID.equals(employeeID) && employeeDB.get(i).password.equals(Password))
-            {
-                return i;
-            }
-            i++;
-        }
-        return -1;
+        System.out.println("Employee ID:" + employee.employeeID);
+        System.out.println("Job Title:" + employee.jobTitle);
+        System.out.println("Employee ID:" + employee.fullName);
+        System.out.println("Salary:" + employee.salary);
+        System.out.println("Department ID:" + employee.departmentID);
+        System.out.println("----------");
     }
 
+    protected void updateEmployee(String employeeID, EmployeeModel employee)
+    {
+        if(employeeID.contains(employee.employeeID))
+        {
+
+        }
+        else
+        {
+            System.out.println("Invalid employeeID!");
+        }
+    }
+
+    protected void removeEmployee(String employeeID)
+    {
+        if(employeeID.contains(employee.employeeID))
+        {
+
+        }
+        else
+        {
+            System.out.println("Invalid employeeID!");
+        }
+    }
 }

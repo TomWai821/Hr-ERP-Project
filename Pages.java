@@ -1,8 +1,15 @@
 import java.util.Scanner;
 
+interface pagesInterface
+{
+    void create();
+    void view();
+    void update();
+    void delete();
+}
+
 public class Pages
 {
-    EmployeeDB db;
     Scanner s = new Scanner(System.in);
 
     protected String EmployeeID;
@@ -17,91 +24,106 @@ public class Pages
         System.out.println("3. Exit");
         System.out.println("----------");
 
-        System.out.print("Your option:");
+        System.out.println("Your option:");
         int input = s.nextInt();
+        System.out.println("----------");
 
         switch(input)
         {
             case 1:
                 Login();
+                MainPage();
+                break;
             case 2:
                 Register();
+                MainPage();
+                break;
             case 3:
                 System.out.println("Thank you for your using! See you next time!");
+                System.out.println("----------");
                 break;
             default:
                 System.out.println("Invalid Input! Please input the value again!");
+                System.out.println("----------");
                 LoginPage();
+                break;
         }
     }
 
     protected void MainPage()
     {
-        System.out.println("");
-    }
+        DepartmentPage department = new DepartmentPage();
+        EmployeePage employee = new EmployeePage();
+        EmailAccountPage email = new EmailAccountPage();
+        JobPage job = new JobPage();
 
-    protected void employeePage()
-    {
         System.out.println("----------");
-        System.out.println("1. Create employee");
-        System.out.println("2. View employee Data");
-        System.out.println("3. Update employee Data");
-        System.out.println("4. Delete employee");
-        System.out.println("5. Exit");
+        System.out.println("1. View department page");
+        System.out.println("2. View employee page");
+        System.out.println("3. View email account page");
+        System.out.println("4. View job page");
+        System.out.println("5. Logout");
         System.out.println("----------");
 
-        System.out.print("Your option:");
+        System.out.println("Your option:");
         int input = s.nextInt();
 
         switch(input)
         {
             case 1:
-                
+                department.departmentPage();
+                break;
             case 2:
+                employee.employeePage();
+                break;
             case 3:
+                email.emailAccountPage();
+                break;
             case 4:
+                job.jobPage();
+                break;
             case 5:
+                System.out.println("See you next time!");
+                System.out.println("----------");
+                LoginPage();
+                break;
+
             default:
                 System.out.println("Invalid Input! Please input the value again!");
-                LoginPage();
+                MainPage();
+                break;
         }
-    }
-
-    protected void departmentPage()
-    {
-        System.out.println("----------");
-        System.out.println("1. Create department");
-        System.out.println("2. View department Data");
-        System.out.println("3. Update department Data");
-        System.out.println("4. Delete department");
-        System.out.println("5. Exit");
-        System.out.println("----------");
-        System.out.print("Your option:");
-    }
-
-    protected void jobPage()
-    {
-
     }
 
     protected void Login()
     {
-        System.out.print("Login ID:");
-        String EmployeeID = s.next();
+        System.out.println("Login ID:");
+        String accountID = s.next();
 
-        System.out.print("Password:");
+        System.out.println("Password:");
         String password = s.next();
-        db.LoginAuth(EmployeeID, password);
+
+        if(accountID.contains("admin") && password.contains("admin"))
+        {
+            MainPage();
+        }
     }
 
     protected void Register()
     {
-        db.RegisterAuth();
+        System.out.print("Employee ID:");
+        String employeeID = s.next();
+
+        System.out.println("Login ID:");
+        String accountID = s.next();
+
+        System.out.println("Password:");
+        String password = s.next();
     }
 
     public static void main(String[] args)
     {
-        Pages p = new Pages();
-        p.LoginPage();
+        Pages page = new Pages();
+        page.LoginPage();
     }
 }
