@@ -8,8 +8,6 @@ public class departmentDB
 
     protected void viewAllDepartment()
     {
-        System.out.println("----------");
-        System.out.println("There are " + departmentDB.size() + " department in this company");
         for(DepartmentModel department : departmentDB)
         {
             System.out.println("----------");

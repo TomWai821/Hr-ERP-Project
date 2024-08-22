@@ -1,21 +1,19 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class DepartmentPage implements pagesInterface
 {
     Scanner s = new Scanner(System.in);
-    departmentDB departmentDB = new departmentDB();
-    String departmentName, departmentID;
-    String directoryPath = "./Department";
-    String filePath = "./Department/department.txt";
-    File directory = new File(directoryPath);
-    File file = new File(filePath);
+    protected departmentDB departmentDB = new departmentDB();
+    protected String departmentName, departmentID;
+
+    protected fileUtils fileUtils = new fileUtils();
+    protected String fileName = "department.txt"; 
+    protected String directoryPath = "./Department";
+    protected String filePath = "./Department/" + fileName;
 
     protected void departmentPage()
     {
-        createFile();
+        fileUtils.createFile(directoryPath, filePath);
 
         Pages page = new Pages();
         System.out.println("----------");
@@ -65,13 +63,15 @@ public class DepartmentPage implements pagesInterface
         departmentName = s.nextLine();
 
         departmentDB.createDepartment(departmentID, departmentName);
+        fileUtils.writeFile(filePath, "DepartmentID:"+departmentID + ", DeparmentName:" + departmentName);
         departmentPage();
-        writeFile(departmentID, departmentName);
     }
 
     @Override
     public void view()
     {
+        System.out.println("----------");
+        System.out.println("There are " + departmentDB.departmentDB.size() + " department in this company");
         departmentDB.viewAllDepartment();
         departmentPage();
     }
@@ -103,38 +103,7 @@ public class DepartmentPage implements pagesInterface
         departmentPage();
     }
 
-    protected void createFile()
-    {
-        try
-        {
-            if(!directory.exists())
-            {
-                directory.mkdir();
-            }
+    
 
-            if(!file.exists())
-            {
-                file.createNewFile();
-            }
-        }
-        catch(IOException exception)
-        {
-            exception.printStackTrace();
-        }
-    }
-
-    protected void writeFile(String departmentID, String departmentName)
-    {
-        try
-        {
-            FileWriter writer = new FileWriter(file);
-            writer.write(departmentID);
-            writer.close();
-        }
-        catch(IOException exception)
-        {
-            exception.printStackTrace();
-        }
-    }
 
 }
